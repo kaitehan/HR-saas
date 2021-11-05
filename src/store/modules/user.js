@@ -26,15 +26,13 @@ const mutations = {
 const actions = {
   // 定义login action  也需要参数 调用action时 传递过来的参数
   async login(context, data) {
-    // axios默认给数据加了一层dat
-    const { data: res } = await login(data) // 实际上就是一个promise  res就是执行的结果
-
-    if (res.success) {
-      // 表示登录接口调用成功 也就是意味着你的用户名和密码是正确的
-      // 现在有用户token
-      // actions 修改state 必须通过mutations
-      context.commit('setToken', res.data)
-    }
+    // 经过响应拦截器的处理之后 这里的res实际上就是 token
+    const res = await login(data) // 实际上就是一个promise  res就是执行的结果
+    // axios默认给数据加了一层data
+    // 表示登录接口调用成功 也就是意味着你的用户名和密码是正确的
+    // 现在有用户token
+    // actions 修改state 必须通过mutations
+    context.commit('setToken', res)
   }
 }
 
