@@ -49,7 +49,7 @@ service.interceptors.response.use(response => {
 function CheckTimeOut() {
   var currentTime = Date.now() // 当前时间戳
   var timeStamp = getTimeStamp()
-  if ((currentTime - timeStamp) > timeOut) {
+  if ((currentTime - timeStamp) / 1000 > timeOut) {
     return true
   } else {
     return false
