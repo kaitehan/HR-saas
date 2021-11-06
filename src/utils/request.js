@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import router from '@/router'
 import store from '@/store'
 import { getTimeStamp } from '@/utils/auth'
-const timeOut = 120 // 定义超时时间
+const timeOut = 3600 // 定义超时时间
 const service = axios.create({
   // 如果执行 npm run dev  值为 /api 正确  /api 这个代理只是给开发环境配置的代理
   // 如果执行 npm run build 值为 /prod-api  没关系  运维应该在上线的时候 给你配置上 /prod-api的代理
