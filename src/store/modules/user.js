@@ -1,5 +1,5 @@
 import { login, getUserInfo, setUserDetailById } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 
 // 状态
 // 初始化的时候从缓存中读取状态 并赋值到初始化的状态上
@@ -41,6 +41,8 @@ const actions = {
     // 现在有用户token
     // actions 修改state 必须通过mutations
     context.commit('setToken', res)
+    // 写入时间戳
+    setTimeStamp() // 将当前的最新时间写入缓存
   },
   async getUserInfo(context) {
     const res = await getUserInfo()

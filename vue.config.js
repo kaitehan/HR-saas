@@ -38,6 +38,7 @@ module.exports = {
     },
     //, before: require('./mock/mock-server.js')
     // 代理配置
+    // 配置反向代理  此处只解决开发环境的跨域问题  生成环境的跨域问题通过ngixs解决
     proxy: {
       // 这里的api 表示如果我们的请求地址有/api的时候,就出触发代理机制
       // localhost:8888/api/abc  => 代理给另一个服务器
@@ -48,8 +49,8 @@ module.exports = {
         changeOrigin: true // 是否跨域 需要设置此值为true 才可以让本地服务代理我们发出请求
         // 路径重写
         // pathRewrite: {
-        //   // 重新路由  localhost:8888/api/login  => http://ihrm-java.itheima.net//api/login
-        //   '^/api': '' // 假设我们想把 localhost:8888/api/login 变成http://ihrm-java.itheima.net//login 就需要这么做
+        //   // 重新路由  localhost:8888/api/login  => http://ihrm-java.itheima.net/api/login
+        //   '^/api': '' // 假设我们想把 localhost:8888/api/login 变成http://ihrm-java.itheima.net/login 就需要这么做
         // }
       }
     }
