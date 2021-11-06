@@ -14,6 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import * as directives from '@/directives'
 
 /**
  * If you don't want to use mock-server
@@ -32,6 +33,15 @@ import '@/permission' // permission control
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+// 注册自定义指令
+// Object.keys(对象)方法用于将对象的属性装入一个数组中并返回该数组
+Object.keys(directives).forEach(key => {
+  // 注册自定义指令
+  // 第一个参数   指令名称
+  // 第二个参数   配置对象
+  Vue.directive(key, directives[key])
+})
 
 Vue.config.productionTip = false
 

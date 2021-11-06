@@ -1,4 +1,4 @@
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, setUserDetailById } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 // 状态
@@ -23,7 +23,7 @@ const mutations = {
   },
   setUserInfo(state, data) {
     // 更新对象
-    state.userInfo = data
+    state.userInfo = { ...data }
   },
   removeUserInfo(state) {
     state.userInfo = {}
@@ -43,9 +43,19 @@ const actions = {
     context.commit('setToken', res)
   },
   async getUserInfo(context) {
-    const res = getUserInfo()
-    context.commit('setUserInfo', res)// 提交到mutations
-    return res // 这里为什么要返回呢  为后面埋下伏笔
+    const res = await getUserInfo()
+    // 获取用户详情
+    const baseInfo = await setUserDetailById(res.userId)
+
+    context.commit('setUserInfo', { ...res, ...baseInfo })// 提交到mutations
+    return res // 这里为什么要返回呢 这里是给我们后期做权限的时候 埋下的伏笔
+  },
+  // 登出操作
+  logout(context) {
+    // 删除token
+    context.commit('removeToken')
+    // 删除用户信息
+    context.commit('removeUserInfo')
   }
 }
 
