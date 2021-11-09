@@ -1,18 +1,18 @@
 <template>
-  <el-row type="flex" justify="space-between" align="middle" style="height: 40px; width: 100%">
-    <el-col>
+  <el-row class="item-wrap">
+    <el-col class="left-wrap">
       <!-- 左侧内容 -->
       <span>{{ treeNode.name }}</span>
     </el-col>
     <!-- 右侧内容 -->
     <el-col :span="4">
-      <el-row type="flex" justify="end">
-        <el-col>{{ treeNode.manager }}</el-col>
+      <el-row class="right-wrap">
+        <el-col class="managerClass">{{ treeNode.manager }}</el-col>
         <el-col>
           <!-- 放置下拉菜单 -->
-          <el-dropdown @command="operateDepts">
+          <el-dropdown trigger="click" @command="operateDepts">
             <!-- 内容 -->
-            <span>操作
+            <span class="operate-wrap">操作
               <i class="el-icon-arrow-down" />
             </span>
             <!-- 具名插槽 -->
@@ -66,6 +66,33 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+// type="flex" justify="space-between" align="middle" style="height: 40px; width: 100%"
+.item-wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  .left-wrap{
+    min-width: 300px;
+  }
 
+}
+.managerClass{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.right-wrap{
+  display: flex;
+  justify-content: flex-end;
+  min-width: 140px;
+}
+.operate-wrap{
+  font-size: 16px;
+  min-width: 80px;
+}
 </style>

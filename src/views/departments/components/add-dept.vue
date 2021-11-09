@@ -132,8 +132,10 @@ export default {
         if (valid) {
           if (this.addForm.id) {
             await updateDepartments(this.addForm)
+            this.$message.success('编辑部门成功')
           } else {
             await addDepartment({ ...this.addForm, pid: this.treeNode.id })
+            this.$message.success('添加部门成功')
           }
           this.$emit('addDepts')
           // 子组件  update: 固定写法 （update:prop名称，值）

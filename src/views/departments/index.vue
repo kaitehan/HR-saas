@@ -9,7 +9,8 @@
           <!-- 传入内容 插槽内容  会循环多次  和节点数量相同 -->
           <!-- 作用域插槽 slot-scope="obj" 接收传递给插槽的数据   data 每个节点的数据对象-->
           <tree-tools slot-scope="{data}" :tree-node="data" @delDepts="getDepartments" @addDepts="addDepts" @editDepts="editDepts" />
-        </el-tree></el-card>
+        </el-tree>
+      </el-card>
     </div>
     <!-- .sync修饰符 可以省略父组件的监听和方法，直接将值赋给isAddDialogShow
       是 【子组件中 $emit(事件名)  父组件中 @事件名】  的语法糖
@@ -68,7 +69,8 @@ export default {
 
 <style>
 .tree-card{
+  overflow: auto;
   padding: 30px 140px;
-  font-size: 14px;
+  font-size: 16px;
 }
 </style>
