@@ -12,6 +12,9 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+// 导入自定义组件
+import Components from '@/components'
+
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives'
@@ -33,6 +36,9 @@ import * as directives from '@/directives'
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+// 注册自定义组件
+Vue.use(Components)
 
 // 注册自定义指令
 // Object.keys(对象)方法用于将对象的属性装入一个数组中并返回该数组
