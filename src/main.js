@@ -19,6 +19,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives'
 
+import * as filters from '@/filters'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -47,6 +48,11 @@ Object.keys(directives).forEach(key => {
   // 第一个参数   指令名称
   // 第二个参数   配置对象
   Vue.directive(key, directives[key])
+})
+
+// 注册自定义过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
 })
 
 Vue.config.productionTip = false
