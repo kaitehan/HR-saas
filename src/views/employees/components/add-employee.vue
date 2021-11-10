@@ -92,9 +92,6 @@ export default {
         ],
         timeOfEntry: [
           { required: true, message: '请选择入职时间', trigger: 'blur' }
-        ],
-        correctionTime: [
-          { required: true, message: '请选择转正时间', trigger: 'blur' }
         ]
       },
       treeData: [],
