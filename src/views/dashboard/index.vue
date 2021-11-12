@@ -9,6 +9,7 @@
       <el-button slot="after" type="primary" size="small">导入excel</el-button>
     </page-tools>
     <UploadExcel />
+    <ImageUpload />
     <div class="dashboard-text">name: {{ name }}</div>
   </div>
 </template>

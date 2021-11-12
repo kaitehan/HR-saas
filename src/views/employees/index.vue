@@ -21,7 +21,18 @@
         <el-table v-loading="loading" :data="list" border>
           <el-table-column type="index" label="序号" sortable="" />
           <el-table-column prop="username" label="姓名" sortable="" />
+          <el-table-column label="头像" width="120px" align="center">
+            <template v-slot="{row}">
+              <img
+                v-imageerror="require('@/assets/common/head.jpg')"
+                :src="row.staffPhoto"
+                alt=""
+                style="border-radius:50%;width:100px;height:100px;padding:10px"
+              >
+            </template>
+          </el-table-column>
           <el-table-column prop="workNumber" label="工号" sortable="" />
+          <el-table-column prop="mobile" label="手机号" sortable="" />
           <!-- 利用格式化属性 format  来对数据进行格式化 -->
           <el-table-column prop="formOfEmployment" label="聘用形式" :formatter="formatEmployment" sortable="" />
           <el-table-column prop="departmentName" label="部门" sortable="" />
@@ -43,7 +54,7 @@
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{row}">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push(`/employees/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -152,7 +163,9 @@ export default {
         // Object.keys(headers) 表头
         const { rows } = await getEmployeeList({ page: 1, size: this.page.total })
         const data = this.formatJson(rows, headers)
+        // 复杂表头
         const multiHeader = [['姓名', '主要信息', '', '', '', '', '部门']]
+        // 合并单元格
         const merges = ['A1:A2', 'B1:F1', 'G1:G2']
         excel.export_json_to_excel({
           header: Object.keys(headers),
