@@ -28,6 +28,7 @@
                 :src="row.staffPhoto"
                 alt=""
                 style="border-radius:50%;width:100px;height:100px;padding:10px"
+                @click="showQrcode(row.staffPhoto)"
               >
             </template>
           </el-table-column>
@@ -76,6 +77,16 @@
       </el-card>
     </div>
     <add-employee :show-dialog.sync="showDialog" />
+    <el-dialog
+      title="二维码"
+      :visible.sync="showCodeDialog"
+      width="25%"
+    >
+      <!-- 二维码区域 -->
+      <el-row type="flex" justify="center">
+        <canvas ref="myCanvas" />
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,6 +95,7 @@ import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees' // 引入员工 的枚举对象
 import AddEmployee from './components/add-employee.vue'
 import { formatDate } from '@/filters'
+import Qrcode from 'qrcode'
 export default {
   components: {
     AddEmployee
@@ -97,7 +109,8 @@ export default {
         total: 0
       },
       loading: false,
-      showDialog: false
+      showDialog: false,
+      showCodeDialog: false
     }
   },
   created() {
@@ -208,6 +221,17 @@ export default {
       })
       // 精简代码
       // return data.map(item => Object.keys(headers).map(obj => item[headers[obj]]))
+    },
+    showQrcode(url) {
+      if (url) {
+        this.showCodeDialog = true // 数据更新了  但是弹层不会立即出现  页面的渲染是异步的！！！
+        this.$nextTick(() => {
+          Qrcode.toCanvas(this.$refs.myCanvas, url) // 将地址转换为二维码
+          // 如果转化的二维码后面信息  是一个地址的话  就会跳转到改地址  如果不是地址就会显示内容
+        })
+      } else {
+        this.$message.warning('该用户还未上传头像')
+      }
     }
   }
 

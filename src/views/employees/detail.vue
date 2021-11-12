@@ -18,6 +18,13 @@
           </el-tab-pane>
           <el-tab-pane label="个人详情">
             <!-- 放置内容 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印个人基本信息">
+                <router-link :to="`/employees/print/${userId}?type=personal`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <!-- vuejs中 内置了一个组件  component  可以是任何组件 -->
             <!-- <user-info /> -->
             <component :is="UserComponent" />
@@ -26,6 +33,13 @@
           </el-tab-pane>
           <el-tab-pane label="岗位信息">
             <!-- 放置内容 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印岗位信息">
+                <router-link :to="`/employees/print/${userId}?type=job`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <component :is="JobComponent" />
           </el-tab-pane>
         </el-tabs>

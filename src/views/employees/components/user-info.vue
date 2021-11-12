@@ -365,13 +365,13 @@ export default {
   methods: {
     async getUserDetailById() {
       this.userInfo = await getUserDetailById(this.userId)
-      if (this.userInfo.staffPhoto.trim()) {
+      if (this.userInfo.staffPhoto && this.userInfo.staffPhoto.trim()) {
         this.$refs.staffPhotoRef.fileList.push({ url: this.userInfo.staffPhoto, upload: true })
       }
     },
     async getPersonalDetail() {
       this.formData = await getPersonalDetail(this.userId)
-      if (this.formData.staffPhoto.trim()) {
+      if (this.formData.staffPhoto && this.formData.staffPhoto.trim()) {
         this.$refs.peoplePhotoRef.fileList.push({ url: this.formData.staffPhoto, upload: true })
       }
     },
