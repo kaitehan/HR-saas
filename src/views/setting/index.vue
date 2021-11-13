@@ -38,7 +38,7 @@
               />
               <el-table-column align="center" label="操作">
                 <template slot-scope="{row}">
-                  <el-button type="success" size="mini">分配权限</el-button>
+                  <el-button type="success" size="mini" @click="assignPerm(row.id)">分配权限</el-button>
                   <el-button type="primary" size="mini" @click="editRoleBtn(row.id)">修改</el-button>
                   <el-button type="danger" size="mini" @click="delRole(row.id)">删除</el-button>
                 </template>
@@ -87,7 +87,7 @@
         </el-tabs>
       </el-card>
     </div>
-    <!-- 弹框组件 -->
+    <!--新增修改 弹框组件 -->
     <el-dialog
       :title="changTitle"
       :visible.sync="showDialogVisible"
@@ -107,11 +107,44 @@
         <el-button type="primary" @click="updateRole">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 分配权限弹框 -->
+    <el-dialog
+      title="分配权限"
+      :visible.sync="showProDialog"
+      width="50%"
+      @close="btnCancle"
+    >
+      <!-- 权限树 -->
+      <!-- 将数据绑定到组件上 -->
+      <!-- check-strictly 如果为true 那表示父子勾选时  不互相关联 如果为false就互相关联 -->
+      <!-- id作为唯一标识 -->
+      <el-tree
+        ref="treeRef"
+        :data="permData"
+        :props="defaultProps"
+        :default-expand-all="true"
+        show-checkbox
+        check-strictly
+        node-key="id"
+        :default-checked-keys="checkedIds"
+      />
+      <!-- 底部区域 -->
+      <el-row slot="footer" type="flex" justify="center">
+        <el-col :span="8">
+          <el-button type="primary" @click="btnOk">确 定</el-button>
+          <el-button @click="btnCancle">取 消</el-button>
+        </el-col>
+      </el-row>
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRoleList, getCompanyInfo, delRole, getRoleDetail, updateRole, addRole } from '@/api/settings'
+import { getRoleList, getCompanyInfo, delRole, getRoleDetail, updateRole, addRole, assignPermission } from '@/api/settings'
+import { getPermissionList } from '@/api/permission'
+import { tranListToTreeData } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
   data: function() {
@@ -135,7 +168,16 @@ export default {
         name: [
           { required: true, message: '请输入部门名称', trigger: 'blur' }
         ]
-      }
+      },
+      showProDialog: false,
+      permData: [],
+      defaultProps: {
+        // 定义默认显示的字段
+        label: 'name',
+        children: 'children'
+      },
+      roleId: '',
+      checkedIds: []
 
     }
   },
@@ -220,6 +262,26 @@ export default {
     },
     addRoleBtn() {
       this.showDialogVisible = true
+    },
+    async assignPerm(id) {
+      this.permData = tranListToTreeData(await getPermissionList(), '0')// 所有权限点
+      // 记录需要修改权限的角色
+      this.roleId = id
+      // 获取此角色的权限
+      const { permIds } = await getRoleDetail(id) // permIds是当前角色所拥有的所有权限id
+      // console.log(permIds)
+      // 将当前角色所拥有的权限id渲染出来
+      this.checkedIds = permIds
+      this.showProDialog = true
+    },
+    async btnOk() {
+      await assignPermission({ id: this.roleId, permIds: this.$refs.treeRef.getCheckedKeys() })
+      this.showProDialog = false
+      this.$message.success('分配权限成功')
+    },
+    btnCancle() {
+      this.checkedIds = []
+      this.showProDialog = false
     }
   }
 }
