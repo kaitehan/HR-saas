@@ -20,6 +20,9 @@ import '@/permission' // permission control
 import * as directives from '@/directives'
 
 import * as filters from '@/filters'
+
+// 引入混入方法
+import CheckPermission from '@/mixin/checkPermission'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -40,6 +43,9 @@ Vue.use(ElementUI, { locale })
 
 // 注册自定义组件
 Vue.use(Components)
+
+// 全局混入检查对象
+Vue.mixin(CheckPermission) // 表示所有组件都有了一个检查的方法
 
 // 注册自定义指令
 // Object.keys(对象)方法用于将对象的属性装入一个数组中并返回该数组

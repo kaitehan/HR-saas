@@ -25,11 +25,22 @@ router.beforeEach(async(to, from, next) => {
       // 如果当前vuex中有数据了  不需要重复获取  如果没有数据  才需要获取
       if (!store.getters.userId) {
         // 如果没有id 才表示当前用户资料没有获取过
-        await store.dispatch('user/getUserInfo')
-
+        const { roles } = await store.dispatch('user/getUserInfo')
         // 如果说后续  需要根据用户资料获取数据的话  这里必须改成  同步
+
+        // 筛选用户可用的路由
+        const routes = await store.dispatch('permission/filterRoute', roles.menus)
+        // routes 是筛选得到的路由
+        // 将 动态路由 加入到 路由表中  默认的路由表  只有静态路由 没有动态路由
+        // addRoutes
+        // 404页面必须放到最后
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }]) // 添加动态路由表
+        // 添加动态路由之后
+        next(to.path) // 相当于多做一次跳转
+        // 添加动态路由之后 即调用addRoutes之后 可能会导致 程序无法跳转 必须强制重新跳转一次
+      } else {
+        next()
       }
-      next()
     }
   } else {
     if (whiteList.indexOf(to.path) > -1) {

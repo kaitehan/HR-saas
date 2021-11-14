@@ -1,5 +1,6 @@
 import { login, getUserInfo, setUserDetailById } from '@/api/user'
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
+import { resetRouter } from '@/router'
 
 // 状态
 // 初始化的时候从缓存中读取状态 并赋值到初始化的状态上
@@ -58,6 +59,18 @@ const actions = {
     context.commit('removeToken')
     // 删除用户信息
     context.commit('removeUserInfo')
+    // 重置路由
+    resetRouter()
+    // 重新设置权限模块下路由为初始状态
+    // Vuex子模块 怎么调用 子模块的mutation ,都没有加锁（命名空间）的情况下  可以随意调用
+    // 不加命名空间的情况下的 所有mutation和action都是挂载全局上的  所以可以直接调用
+    // 但是加了命名空间的子模块 怎么调用另一个加了命名空间的子模块呢
+    // 加了命名空间的子模块 actions 中的  context 指的不是全局的 context  而是其本身
+    // 解决方法 ： context.commit()中有三个参数
+    // 第一个参数 ：mutation名称
+    // 第二个参数： 载荷payload
+    // 第三个参数： {root:true} 值为 true 表示调用根级别的 mutations 或者 actions
+    context.commit('permission/setRoutes', [], { root: true })
   }
 }
 
