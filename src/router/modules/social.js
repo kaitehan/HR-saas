@@ -1,21 +1,50 @@
-// 导出员工的路由规则
+
 import Layout from '@/layout'
+
 export default {
-  // 路由规则
-  path: '/social', // 路由地址  /social
-  name: 'social_securitys', // 给模块的一级路由加一个name属性，  这个属性  我们后面会在做权限的时候使用
+  path: '/social_securitys',
   component: Layout,
+  name: 'social_securitys',
   children: [
     {
-      // 二级权限的 path 什么都不写的时候  此时它表示二级路由的默认路由
-      path: '', // 这里不用写  什么都不写表示  /social  不但有布局  Layout  还有  员工主页
+      path: '',
       component: () => import('@/views/social'),
-      // 路由信息  其实是一个存放数据的地方  可以放任何内容
+      name: 'social_securitys',
       meta: {
-        title: '社保', // 这里为什么要用 title ? 因为左侧导航读取了这里的title属性
+        title: '社保',
         icon: 'table'
+
+      }
+    },
+    // 报表
+    {
+      path: 'detail/:id',
+      hidden: true,
+      component: () => import('@/views/social/detail'),
+      name: 'socialDetail',
+      meta: {
+        title: '社保'
+      }
+    },
+    // 历史归档
+    {
+      path: 'historicalArchiving',
+      hidden: true,
+      component: () => import('@/views/social/historical'),
+      name: 'socialHistorical',
+      meta: {
+        title: '历史归档'
+      }
+    },
+    // 月报表
+    {
+      path: 'monthStatement',
+      component: () => import('@/views/social/month'),
+      name: 'socialMonthStatement',
+      hidden: true,
+      meta: {
+        title: '当月报表'
       }
     }
   ]
-
 }
