@@ -17,8 +17,8 @@
 import COS from 'cos-js-sdk-v5'
 // 实例化cos
 const cos = new COS({
-  SecretId: 'AKIDaz81dy2qNeeOr3yc18NDo8',
-  SecretKey: '3qMbYGiupTqxnLdeOKHy'
+  SecretId: 'AKIDaz81dy2qNeeOr3yc18NDo8', // 错误
+  SecretKey: '3qMbYGiupTqxnLdeOKHy'// 错误
 
 })
 export default {
